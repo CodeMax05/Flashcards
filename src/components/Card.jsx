@@ -1,7 +1,7 @@
 const Card = (props) => {
     return(
         <div className="Card">
-            {props.Question}
+            <h4>{props.response}</h4>
         </div>
     )
 }
