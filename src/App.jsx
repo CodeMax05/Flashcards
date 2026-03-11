@@ -1,3 +1,4 @@
+import gif from './assets/Project2.gif'
 import Card from './components/Card'
 import { useState } from 'react';
 import './App.css'
@@ -45,6 +46,8 @@ function App() {
       />
 
       <button onClick={handleNextCard}>Next Card</button>
+
+      {/* <img src={gif} title='Video Walkthrough' width='' alt='Video Walkthrough' /> */}
     </div>
   )
 }
