@@ -4,39 +4,40 @@ import './App.css'
 
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
-  const questions = {
-    'one': 'How do you say hello?',
-    'two': 'How do you say goodbye?',
-    'three': 'What does 주황색 mean?'
-  }
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const answers = {
-    'one': '안녕하세요',
-    'two': '안녕히 가세요',
-    'three': 'orange'
-  }
-  const updateFlipped = () => {
+  const cards = [
+    { question: 'How do you say hello?', answer: '안녕하세요' },
+    { question: 'How do you say goodbye?', answer: '안녕히 가세요' },
+    { question: 'What does 주황색 mean?', answer: 'orange' },
+  ];
+
+  const handleFlip = () => {
     setIsFlipped(!isFlipped);
-  }
+  };
 
+  const handleNextCard = () => {
+    setCurrentIndex((currentIndex + 1) % cards.length);
+    setIsFlipped(false);
+  };
+
+  const currentCard = cards[currentIndex];
 
   return(
     <div>
       <h2>The Ultimate Korean Learner</h2>
-      <h4>Lets test to see how much korean you know!</h4>
-      <h5>Number of Cards: 10</h5>
+      <h4>Let's test to see how much Korean you know!</h4>
+      <h5>Card {currentIndex + 1} of {cards.length}</h5>
 
-      {isFlipped
-        ? <Card response = {answers.one} />
-        : <Card reponse = {questions.one} />
-      }
+      <Card
+        question={currentCard.question}
+        answer={currentCard.answer}
+        isFlipped={isFlipped}
+        onClick={handleFlip}
+      />
 
-      <button onClick={updateFlipped}>
-
-      </button>
-      
+      <button onClick={handleNextCard}>Next Card</button>
     </div>
   )
 }
-
 export default App
