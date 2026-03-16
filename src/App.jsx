@@ -56,7 +56,11 @@ function App() {
       <img className='background' src="https://m.media-amazon.com/images/I/81di25RIlhL.jpg" alt="" />
       <h2>The Ultimate Korean Learner</h2>
       <h4>Let's test to see how much Korean you know!</h4>
-      <h5>Card {currentIndex + 1} of {cards.length}</h5>
+      <div className='stats'>
+        <h5>Current Streak: {}</h5>
+        <h5>Card {currentIndex + 1} of {cards.length}</h5>
+        <h5>Latest Streak: {}</h5>
+      </div>
 
       <Card
         question={currentCard.question}

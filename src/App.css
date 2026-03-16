@@ -38,6 +38,11 @@
   flex-direction: column;
 }
 
+.stats{
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .background {
   position: fixed;
   top: 0;
