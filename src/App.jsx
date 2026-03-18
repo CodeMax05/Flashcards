@@ -1,3 +1,4 @@
+import flash2 from './assets/Flash2.gif'
 import gif from './assets/Project2.gif'
 import Card from './components/Card'
 import { useState } from 'react';
@@ -139,6 +140,7 @@ function App() {
       {atStart && <p className='deck-boundary-msg'>You're at the beginning of the deck!</p>}
       {atEnd && <p className='deck-boundary-msg'>You're at the end of the deck!</p>}
       {/* <img src={gif} title='Video Walkthrough' width='' alt='Video Walkthrough' /> */}
+      {/* <img src={flash2} title='Video Walkthrough' width='' alt='Video Walkthrough' /> */}
     </div>
   )
 }
