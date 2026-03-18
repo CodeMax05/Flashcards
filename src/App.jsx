@@ -10,6 +10,8 @@ function App() {
   const [latestStreak, setLatestStreak] = useState(0);
   const [userGuess, setUserGuess] = useState('');
   const [guessStatus, setGuessStatus] = useState(null);
+  const [atStart, setAtStart] = useState(false);
+  const [atEnd, setAtEnd] = useState(false);
   
   const [cards, setCards] = useState([
     { question: 'How do you say hello?', answer: '안녕하세요' },
@@ -52,19 +54,24 @@ function App() {
   };
 
   const handleNextCard = () => {
-    if (currentIndex < cards.length - 1 ){
-    setCurrentIndex((currentIndex + 1) % cards.length);
-    }
-    else{
-      return 'red';
+    if (currentIndex < cards.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+      setAtEnd(false);
+      setAtStart(false);
+    } else {
+      setAtEnd(true);
     }
     setIsFlipped(false);
     resetGuess();
   };
 
   const handlePrevCard = () => {
-    if ((currentIndex - 1) >= 0){
-    setCurrentIndex((currentIndex - 1) % cards.length);
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+      setAtStart(false);
+      setAtEnd(false);
+    } else {
+      setAtStart(true);
     }
     setIsFlipped(false);
     resetGuess();
@@ -79,6 +86,8 @@ function App() {
     setCards(shuffled);
     setCurrentIndex(0);
     setIsFlipped(false);
+    setAtStart(false);
+    setAtEnd(false);
     resetGuess();
   }
 
@@ -113,11 +122,22 @@ function App() {
         />
         <button onClick={handleSubmit}>Submit</button>
       </div>
+      
+      <div className='response'>
+      {guessStatus && (
+        <p className={`guess-feedback ${guessStatus}`}>
+          {guessStatus === 'correct' ? '✓ Correct!' : `✗ Incorrect — answer: ${currentCard.answer}`}
+        </p>
+      )}
+      </div>
 
+      <div className='cardControls'>
       <button className='previous' onClick={handlePrevCard}>Prev</button>
-      <button className='next' style={{borderColor:{handleNextCard}}} onClick={handleNextCard}>Next</button>
+      <button className='next' onClick={handleNextCard}>Next</button>
       <button className='shuffle' onClick={shuffleCards}>Shuffle Cards</button>
-
+      </div>
+      {atStart && <p className='deck-boundary-msg'>You're at the beginning of the deck!</p>}
+      {atEnd && <p className='deck-boundary-msg'>You're at the end of the deck!</p>}
       {/* <img src={gif} title='Video Walkthrough' width='' alt='Video Walkthrough' /> */}
     </div>
   )

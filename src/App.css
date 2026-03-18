@@ -95,6 +95,61 @@
   transform: rotateX(180deg);
 }
 
-button{
-  margin-top: 50px;
+.guess-area {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.guess-input {
+  padding: 0.5em 1em;
+  font-size: 1em;
+  border-radius: 8px;
+  border: 2px solid #555;
+  background-color: #1a1a1a;
+  color: white;
+  outline: none;
+  transition: border-color 0.25s, background-color 0.25s;
+  min-width: 250px;
+}
+
+.guess-input:focus {
+  border-color: #646cff;
+}
+
+.guess-input.correct {
+  border-color: #22c55e;
+  background-color: rgba(34, 197, 94, 0.15);
+}
+
+.guess-input.incorrect {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.15);
+}
+
+.response {
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.guess-feedback.correct {
+  color: #22c55e;
+}
+
+.guess-feedback.incorrect {
+  color: #ef4444;
+}
+
+.cardControls button{
+  margin-inline: 5px;
+}
+
+.deck-boundary-msg {
+  margin-top: 8px;
+  font-size: 0.85em;
+  color: #ef4444;
 }
