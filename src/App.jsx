@@ -6,6 +6,11 @@ import './App.css'
 function App() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [latestStreak, setLatestStreak] = useState(0);
+  const [userGuess, setUserGuess] = useState('');
+  const [guessStatus, setGuessStatus] = useState(null);
+  
   const [cards, setCards] = useState([
     { question: 'How do you say hello?', answer: '안녕하세요' },
     { question: 'How do you say goodbye?', answer: '안녕히 가세요' },
@@ -23,19 +28,46 @@ function App() {
     setIsFlipped(!isFlipped);
   };
 
+  const resetGuess = () => {
+    setUserGuess('');
+    setGuessStatus(null);
+  };
+
+  const handleGuessChange = (e) => {
+    setUserGuess(e.target.value);
+    if (guessStatus) setGuessStatus(null);
+  };
+
+  const handleSubmit = () => {
+    if (!userGuess.trim()) return;
+    const isCorrect = userGuess.trim().toLowerCase() === currentCard.answer.trim().toLowerCase();
+    if (isCorrect) {
+      setGuessStatus('correct');
+      setStreak(streak + 1);
+    } else {
+      setGuessStatus('incorrect');
+      setLatestStreak(streak);
+      setStreak(0);
+    }
+  };
+
   const handleNextCard = () => {
+    if (currentIndex < cards.length - 1 ){
     setCurrentIndex((currentIndex + 1) % cards.length);
+    }
+    else{
+      return 'red';
+    }
     setIsFlipped(false);
+    resetGuess();
   };
 
   const handlePrevCard = () => {
-    if ((currentIndex - 1) < 0){
-      setCurrentIndex(cards.length - 1);
-    }
-    else{
+    if ((currentIndex - 1) >= 0){
     setCurrentIndex((currentIndex - 1) % cards.length);
     }
     setIsFlipped(false);
+    resetGuess();
   }
 
   const shuffleCards = () => {
@@ -47,6 +79,7 @@ function App() {
     setCards(shuffled);
     setCurrentIndex(0);
     setIsFlipped(false);
+    resetGuess();
   }
 
   const currentCard = cards[currentIndex];
@@ -57,9 +90,9 @@ function App() {
       <h2>The Ultimate Korean Learner</h2>
       <h4>Let's test to see how much Korean you know!</h4>
       <div className='stats'>
-        <h5>Current Streak: {}</h5>
+        <h5>Current Streak: {streak}</h5>
         <h5>Card {currentIndex + 1} of {cards.length}</h5>
-        <h5>Latest Streak: {}</h5>
+        <h5>Latest Streak: {latestStreak}</h5>
       </div>
 
       <Card
@@ -69,9 +102,21 @@ function App() {
         onClick={handleFlip}
       />
 
-      <button onClick={handlePrevCard}>Prev</button>
-      <button onClick={handleNextCard}>Next</button>
-      <button onClick={shuffleCards}>Shuffle Cards</button>
+      <div className="guess-area">
+        <input
+          type="text"
+          className={`guess-input ${guessStatus || ''}`}
+          placeholder="Type your answer..."
+          value={userGuess}
+          onChange={handleGuessChange}
+          onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+        />
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
+
+      <button className='previous' onClick={handlePrevCard}>Prev</button>
+      <button className='next' style={{borderColor:{handleNextCard}}} onClick={handleNextCard}>Next</button>
+      <button className='shuffle' onClick={shuffleCards}>Shuffle Cards</button>
 
       {/* <img src={gif} title='Video Walkthrough' width='' alt='Video Walkthrough' /> */}
     </div>
